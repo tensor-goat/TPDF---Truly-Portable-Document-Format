@@ -1,0 +1,698 @@
+#!/usr/bin/env python3
+# -*- coding: latin-1 -*-
+# Polyglot PDF: valid as both PDF and Python3
+# Albertini (corkami) x Tunney (cosmopolitan)
+PDF=1;_=r'''
+%PDF-1.7
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 4 0 R 5 0 R] /Count 3 >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+7 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier /Encoding /WinAnsiEncoding >>
+endobj
+8 0 obj
+<< /Font << /F1 6 0 R /F2 7 0 R >> >>
+endobj
+9 0 obj
+<< /Length 1254 >>
+stream
+BT
+/F1 28 Tf
+50 750 Td
+(POLYGLOT PDF) Tj
+0 -35 Td
+/F1 18 Tf
+(Self-Serving Portable Document) Tj
+0 -50 Td
+/F1 11 Tf
+0.3 0.3 0.3 rg
+(This file is simultaneously a valid PDF and a valid Python 3 script.) Tj
+0 -20 Td
+(When opened in a PDF reader, you see this document.) Tj
+0 -20 Td
+(When run as: python3 portable.pdf -- it serves itself in your browser.) Tj
+0 -40 Td
+0 0 0 rg
+/F1 14 Tf
+(Inspirations:) Tj
+0 -25 Td
+/F1 11 Tf
+0.15 0.25 0.5 rg
+(Ange Albertini \(corkami\) -- Polyglot file techniques, PDF internals) Tj
+0 -18 Td
+(Justine Tunney -- Cosmopolitan Libc, Actually Portable Executable \(APE\)) Tj
+0 -35 Td
+0 0 0 rg
+/F1 14 Tf
+(How It Works:) Tj
+0 -25 Td
+/F1 11 Tf
+0.3 0.3 0.3 rg
+(1. The PDF header %PDF-1.7 lives inside a Python variable assignment.) Tj
+0 -18 Td
+(2. Python sees a triple-quoted raw string containing the full PDF source.) Tj
+0 -18 Td
+(3. PDF readers parse from the %PDF marker, ignoring the Python preamble.) Tj
+0 -18 Td
+(4. After the PDF %%EOF marker, the Python self-server code follows.) Tj
+0 -18 Td
+(5. ctypes provides cross-platform native OS calls -- no dependencies.) Tj
+0 -40 Td
+0.6 0.1 0.1 rg
+/F1 12 Tf
+(Zero external dependencies. Pure Python 3 standard library + ctypes.) Tj
+0 -25 Td
+0 0 0 rg
+/F1 10 Tf
+(Page 1 of 3) Tj
+ET
+endstream
+endobj
+10 0 obj
+<< /Length 1895 >>
+stream
+BT
+/F1 22 Tf
+50 750 Td
+(Architecture and Polyglot Structure) Tj
+0 -40 Td
+/F1 11 Tf
+0.3 0.3 0.3 rg
+(FILE LAYOUT:) Tj
+0 -22 Td
+/F2 10 Tf
+(  +-------------------------------------------+) Tj
+0 -14 Td
+(  | #!/usr/bin/env python3                    |  <-- shebang) Tj
+0 -14 Td
+(  | PDF=1;_=r\264\264\264                      |  <-- var + raw string) Tj
+0 -14 Td
+(  | %PDF-1.7                                  |  <-- PDF header) Tj
+0 -14 Td
+(  | 1 0 obj << /Type /Catalog ... >>          |  <-- PDF objects) Tj
+0 -14 Td
+(  | ...streams, fonts, pages...               |) Tj
+0 -14 Td
+(  | %%EOF                                     |  <-- PDF end) Tj
+0 -14 Td
+(  | \264\264\264                                 |  <-- string close) Tj
+0 -14 Td
+(  | import ctypes, http.server ...            |  <-- server) Tj
+0 -14 Td
+(  | serve_pdf\(\)                              |  <-- launch) Tj
+0 -14 Td
+(  +-------------------------------------------+) Tj
+0 -30 Td
+/F1 11 Tf
+(CTYPES USAGE -- Cross-Platform Native Calls:) Tj
+0 -22 Td
+/F2 10 Tf
+(  Linux:   libc.so.6  -> system\("xdg-open http://..."\)) Tj
+0 -14 Td
+(  macOS:   libc.dylib -> system\("open http://..."\)) Tj
+0 -14 Td
+(  Windows: kernel32 + shell32 -> ShellExecuteW\(...\)) Tj
+0 -14 Td
+(  BSD:     libc.so   -> system\("xdg-open http://..."\)) Tj
+0 -30 Td
+/F1 11 Tf
+(PLATFORM DETECTION via ctypes:) Tj
+0 -22 Td
+/F2 10 Tf
+(  try:    ctypes.windll.kernel32  --> Windows) Tj
+0 -14 Td
+(  except: probe libc.so.6 / libc.dylib --> Linux or macOS) Tj
+0 -30 Td
+/F1 11 Tf
+0 0 0 rg
+(HTTP server endpoints:) Tj
+0 -22 Td
+/F2 10 Tf
+0.3 0.3 0.3 rg
+(  GET /          -> HTML viewer with embedded PDF rendering) Tj
+0 -14 Td
+(  GET /doc.pdf   -> The raw PDF bytes extracted from self) Tj
+0 -14 Td
+(  GET /health    -> JSON status for programmatic checks) Tj
+0 -14 Td
+(  GET /shutdown  -> Graceful server termination) Tj
+0 -25 Td
+0 0 0 rg
+/F1 10 Tf
+(Page 2 of 3) Tj
+ET
+endstream
+endobj
+11 0 obj
+<< /Length 1308 >>
+stream
+BT
+/F1 22 Tf
+50 750 Td
+(Philosophy and Credits) Tj
+0 -40 Td
+/F1 12 Tf
+0.15 0.25 0.5 rg
+("A file format is just a convention. A polyglot file is a reminder) Tj
+0 -18 Td
+(that conventions are more fragile than we think.") Tj
+0 -14 Td
+/F1 10 Tf
+0.5 0.5 0.5 rg
+(  -- inspired by the spirit of Ange Albertini) Tj
+0 -35 Td
+/F1 12 Tf
+0.15 0.25 0.5 rg
+("Software should be able to run anywhere. The computer is the) Tj
+0 -18 Td
+(platform, not the operating system.") Tj
+0 -14 Td
+/F1 10 Tf
+0.5 0.5 0.5 rg
+(  -- inspired by the spirit of Justine Tunney) Tj
+0 -45 Td
+0 0 0 rg
+/F1 14 Tf
+(What This Proves:) Tj
+0 -25 Td
+/F1 11 Tf
+0.3 0.3 0.3 rg
+(1. File formats are overlapping territories, not walled gardens.) Tj
+0 -20 Td
+(2. A PDF need not be passive -- it can serve itself.) Tj
+0 -20 Td
+(3. Python stdlib is powerful enough for full self-hosting.) Tj
+0 -20 Td
+(4. ctypes bridges Python to any OS without compiled extensions.) Tj
+0 -20 Td
+(5. Portability is a design choice, not a platform feature.) Tj
+0 -40 Td
+0 0 0 rg
+/F1 14 Tf
+(Usage:) Tj
+0 -25 Td
+/F2 11 Tf
+(  $ python3 portable.pdf) Tj
+0 -16 Td
+(  Serving on http://localhost:8432 ...) Tj
+0 -16 Td
+(  \(browser opens automatically via ctypes\)) Tj
+0 -35 Td
+/F1 10 Tf
+0 0 0 rg
+(Page 3 of 3) Tj
+0 -25 Td
+/F1 8 Tf
+0.5 0.5 0.5 rg
+(Generated: D:20260311195039) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 9 0 R /Resources 8 0 R >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 10 0 R /Resources 8 0 R >>
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 11 0 R /Resources 8 0 R >>
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000169 00000 n 
+0000000218 00000 n 
+0000005144 00000 n 
+0000005248 00000 n 
+0000005353 00000 n 
+0000000287 00000 n 
+0000000384 00000 n 
+0000000479 00000 n 
+0000000532 00000 n 
+0000001837 00000 n 
+0000003784 00000 n 
+trailer
+<< /Size 12 /Root 1 0 R >>
+startxref
+5458
+%%EOF
+'''
+# ============================================================
+# END OF PDF DATA -- PYTHON SELF-SERVER BELOW
+# ============================================================
+# ==============================================================
+#  POLYGLOT PDF SELF-SERVER
+#  Albertini-style polyglot structure + Tunney-style portability
+#  Pure Python 3 stdlib + ctypes -- zero external dependencies
+# ==============================================================
+
+import sys
+import os
+import ctypes
+import ctypes.util
+import struct
+import socket
+import threading
+import signal
+import json
+import time
+from http.server import HTTPServer, BaseHTTPRequestHandler
+from urllib.parse import urlparse
+
+# -- Platform Detection via ctypes -----------------------------
+
+class PlatformBridge:
+    '''
+    Cross-platform native interface using ctypes.
+    Detects OS and provides native system calls without subprocess.
+    Inspired by Cosmopolitan libc platform abstraction layer.
+    '''
+
+    PLATFORM_UNKNOWN = 0
+    PLATFORM_LINUX   = 1
+    PLATFORM_MACOS   = 2
+    PLATFORM_WINDOWS = 3
+    PLATFORM_BSD     = 4
+
+    def __init__(self):
+        self.platform = self._detect_platform()
+        self.libc = self._load_libc()
+        self._setup_signal_handlers()
+
+    def _detect_platform(self):
+        '''Detect platform using ctypes probing -- no subprocess needed.'''
+        # Try Windows first (ctypes.windll only exists on Windows)
+        try:
+            ctypes.windll.kernel32
+            return self.PLATFORM_WINDOWS
+        except AttributeError:
+            pass
+        # Check sys.platform as primary hint, then verify with ctypes
+        plat = sys.platform.lower()
+        if 'darwin' in plat:
+            return self.PLATFORM_MACOS
+        elif 'linux' in plat:
+            return self.PLATFORM_LINUX
+        elif 'bsd' in plat or 'freebsd' in plat or 'openbsd' in plat:
+            return self.PLATFORM_BSD
+        # Fallback: try to load platform-specific libc
+        for lib_name in ['libc.dylib', 'libc.so.6', 'libc.so']:
+            try:
+                ctypes.CDLL(lib_name)
+                if lib_name == 'libc.dylib':
+                    return self.PLATFORM_MACOS
+                return self.PLATFORM_LINUX
+            except OSError:
+                continue
+        return self.PLATFORM_UNKNOWN
+
+    def _load_libc(self):
+        '''Load the C standard library via ctypes.'''
+        if self.platform == self.PLATFORM_WINDOWS:
+            try:
+                return ctypes.cdll.msvcrt
+            except OSError:
+                return None
+        lib_names = {
+            self.PLATFORM_LINUX: ['libc.so.6', 'libc.so'],
+            self.PLATFORM_MACOS: ['libc.dylib'],
+            self.PLATFORM_BSD:   ['libc.so.7', 'libc.so'],
+        }
+        for name in lib_names.get(self.platform, ['libc.so.6', 'libc.so']):
+            try:
+                return ctypes.CDLL(name)
+            except OSError:
+                continue
+        # Last resort: use ctypes.util to find it
+        libc_name = ctypes.util.find_library('c')
+        if libc_name:
+            try:
+                return ctypes.CDLL(libc_name)
+            except OSError:
+                pass
+        return None
+
+    def _setup_signal_handlers(self):
+        '''Set up graceful shutdown via ctypes signal handling.'''
+        try:
+            signal.signal(signal.SIGINT, self._signal_handler)
+            signal.signal(signal.SIGTERM, self._signal_handler)
+        except (OSError, ValueError):
+            pass
+
+    def _signal_handler(self, signum, frame):
+        print(f'\n[polyglot-pdf] Caught signal {signum}, shutting down...')
+        os._exit(0)
+
+    def platform_name(self):
+        names = {
+            self.PLATFORM_LINUX:   'Linux',
+            self.PLATFORM_MACOS:   'macOS',
+            self.PLATFORM_WINDOWS: 'Windows',
+            self.PLATFORM_BSD:     'BSD',
+        }
+        return names.get(self.platform, 'Unknown')
+
+    def open_browser(self, url):
+        '''
+        Open URL in default browser using ctypes native calls.
+        No subprocess, no webbrowser module -- pure ctypes.
+        '''
+        if self.platform == self.PLATFORM_WINDOWS:
+            try:
+                shell32 = ctypes.windll.shell32
+                # ShellExecuteW(hwnd, operation, file, params, dir, show)
+                shell32.ShellExecuteW(None, 'open', url, None, None, 1)
+                return True
+            except Exception:
+                pass
+        elif self.platform == self.PLATFORM_MACOS:
+            if self.libc:
+                try:
+                    self.libc.system(f'open "{url}" 2>/dev/null &'.encode())
+                    return True
+                except Exception:
+                    pass
+        elif self.platform in (self.PLATFORM_LINUX, self.PLATFORM_BSD):
+            if self.libc:
+                try:
+                    cmd = (
+                        f'(xdg-open "{url}" || '
+                        f'sensible-browser "{url}" || '
+                        f'x-www-browser "{url}" || '
+                        f'firefox "{url}" || '
+                        f'chromium-browser "{url}" || '
+                        f'google-chrome "{url}") 2>/dev/null &'
+                    )
+                    self.libc.system(cmd.encode())
+                    return True
+                except Exception:
+                    pass
+        # Fallback: use Python webbrowser (still stdlib, no ext deps)
+        try:
+            import webbrowser
+            webbrowser.open(url)
+            return True
+        except Exception:
+            return False
+
+    def get_pid(self):
+        '''Get current process ID via ctypes.'''
+        if self.libc and self.platform != self.PLATFORM_WINDOWS:
+            try:
+                self.libc.getpid.restype = ctypes.c_int
+                return self.libc.getpid()
+            except Exception:
+                pass
+        if self.platform == self.PLATFORM_WINDOWS:
+            try:
+                return ctypes.windll.kernel32.GetCurrentProcessId()
+            except Exception:
+                pass
+        return os.getpid()
+
+    def get_terminal_width(self):
+        '''Get terminal width via ctypes ioctl (Unix) or kernel32 (Windows).'''
+        if self.platform == self.PLATFORM_WINDOWS:
+            try:
+                h = ctypes.windll.kernel32.GetStdHandle(-11)
+                buf = ctypes.create_string_buffer(22)
+                if ctypes.windll.kernel32.GetConsoleScreenBufferInfo(h, buf):
+                    left, top, right, bottom = struct.unpack('hhhhHhhhhhh', buf.raw)[5:9]
+                    return right - left + 1
+            except Exception:
+                pass
+        elif self.libc:
+            try:
+                import fcntl, termios
+                result = fcntl.ioctl(1, termios.TIOCGWINSZ, b'\x00' * 8)
+                rows, cols = struct.unpack('hh', result[:4])
+                if cols > 0:
+                    return cols
+            except Exception:
+                pass
+        return 80
+
+
+# -- PDF Extraction --------------------------------------------
+
+def extract_pdf_from_self():
+    '''Extract the PDF content from the polyglot variable _.'''
+    pdf_source = globals().get('_', '')
+    if not pdf_source:
+        print('[polyglot-pdf] ERROR: Could not find embedded PDF data!')
+        sys.exit(1)
+    start = pdf_source.find('%PDF-')
+    if start == -1:
+        print('[polyglot-pdf] ERROR: No %PDF header found in embedded data!')
+        sys.exit(1)
+    end = pdf_source.rfind('%%EOF')
+    if end == -1:
+        print('[polyglot-pdf] ERROR: No %%EOF marker found!')
+        sys.exit(1)
+    pdf_text = pdf_source[start:end + 5] + '\n'
+    return pdf_text.encode('latin-1')
+
+
+# -- HTML Viewer -----------------------------------------------
+
+VIEWER_HTML = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polyglot PDF</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .topbar {
+    background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e94560;
+    box-shadow: 0 2px 20px rgba(233, 69, 96, 0.15);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .topbar h1 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e94560;
+    letter-spacing: 0.5px;
+  }
+  .topbar .badge {
+    font-size: 11px;
+    background: rgba(233, 69, 96, 0.15);
+    color: #e94560;
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(233, 69, 96, 0.3);
+  }
+  .topbar .info {
+    font-size: 11px;
+    color: #888;
+  }
+  .controls {
+    background: #16213e;
+    padding: 8px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #1a1a3e;
+  }
+  .controls a, .controls button {
+    font-family: inherit;
+    font-size: 13px;
+    color: #aaa;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .controls a:hover, .controls button:hover {
+    background: rgba(233, 69, 96, 0.15);
+    color: #e94560;
+    border-color: rgba(233, 69, 96, 0.3);
+  }
+  .viewer {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background: #12121f;
+  }
+  iframe {
+    width: 100%;
+    max-width: 900px;
+    height: calc(100vh - 120px);
+    border: 1px solid #2a2a4a;
+    border-radius: 8px;
+    background: white;
+  }
+  .status {
+    text-align: center;
+    padding: 14px;
+    font-size: 13px;
+    color: #666;
+    border-top: 1px solid #1a1a3e;
+    background: #16213e;
+  }
+  .status code {
+    color: #e94560;
+    background: rgba(233,69,96,0.1);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <h1>&#x25CA; Polyglot PDF &mdash; Self-Serving Document</h1>
+    <span class="badge">Albertini &#x00D7; Tunney</span>
+    <span class="info">python3 + ctypes | zero dependencies</span>
+  </div>
+  <div class="controls">
+    <a href="/doc.pdf" download="polyglot_document.pdf">&#11015; Download PDF</a>
+    <a href="/doc.pdf" target="_blank">&#8599; Open Raw</a>
+    <button onclick="document.getElementById('pdfview').src='/doc.pdf?t='+Date.now()">&#8635; Reload</button>
+    <button onclick="fetch('/shutdown').then(()=>{document.title='[stopped]';document.body.innerHTML='<h2 style=\\'color:#e94560;text-align:center;margin-top:40vh\\'>Server stopped.</h2>'})">&#9724; Stop Server</button>
+  </div>
+  <div class="viewer">
+    <iframe id="pdfview" src="/doc.pdf" type="application/pdf"></iframe>
+  </div>
+  <div class="status">
+    Served by <code>polyglot-pdf</code> &mdash; this file is both a valid PDF and a Python script.
+    Press Ctrl+C or click Stop to shut down.
+  </div>
+</body>
+</html>'''
+
+
+# -- HTTP Request Handler --------------------------------------
+
+class Holder:
+    '''Holds the shared state for the server.'''
+    pdf_bytes = b''
+    platform_bridge = None
+
+def make_handler():
+    class PolyglotHandler(BaseHTTPRequestHandler):
+        '''Zero-dependency HTTP handler that serves the embedded PDF.'''
+
+        def do_GET(self):
+            path = urlparse(self.path).path
+            if path == '/' or path == '/index.html':
+                html = VIEWER_HTML.encode('utf-8')
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/html; charset=utf-8')
+                self.send_header('Content-Length', str(len(html)))
+                self.end_headers()
+                self.wfile.write(html)
+            elif path == '/doc.pdf':
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/pdf')
+                self.send_header('Content-Length', str(len(Holder.pdf_bytes)))
+                self.send_header('Content-Disposition', 'inline; filename="polyglot.pdf"')
+                self.send_header('Cache-Control', 'no-cache')
+                self.end_headers()
+                self.wfile.write(Holder.pdf_bytes)
+            elif path == '/health':
+                info = json.dumps({
+                    'status': 'ok',
+                    'type': 'polyglot-pdf',
+                    'platform': Holder.platform_bridge.platform_name() if Holder.platform_bridge else 'unknown',
+                    'pid': Holder.platform_bridge.get_pid() if Holder.platform_bridge else -1,
+                    'pdf_size': len(Holder.pdf_bytes),
+                    'technique': 'Albertini-polyglot + Tunney-portable',
+                })
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                self.wfile.write(info.encode())
+            elif path == '/shutdown':
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/plain')
+                self.end_headers()
+                self.wfile.write(b'Shutting down...')
+                threading.Thread(target=lambda: (time.sleep(0.5), os._exit(0))).start()
+            else:
+                self.send_response(404)
+                self.end_headers()
+
+        def log_message(self, format, *args):
+            sys.stderr.write(f'  [{self.log_date_time_string()}] {args[0]}\n')
+
+    return PolyglotHandler
+
+
+# -- Main Entry Point ------------------------------------------
+
+def serve_pdf():
+    '''Main entry: extract PDF from self, start server, open browser.'''
+    bridge = PlatformBridge()
+    Holder.platform_bridge = bridge
+    term_w = bridge.get_terminal_width()
+    sep = '\u2500' * min(term_w - 2, 60)
+    print(f'\n  {sep}')
+    print(f'   POLYGLOT PDF \u2014 Self-Serving Document')
+    print(f'   Platform:  {bridge.platform_name()} (detected via ctypes)')
+    print(f'   PID:       {bridge.get_pid()} (retrieved via ctypes)')
+    print(f'  {sep}\n')
+    # Extract PDF bytes from the polyglot variable
+    Holder.pdf_bytes = extract_pdf_from_self()
+    print(f'  [*] Extracted PDF: {len(Holder.pdf_bytes)} bytes')
+    # Find an available port
+    port = 8432
+    for attempt_port in range(8432, 8500):
+        try:
+            test_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            test_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            test_sock.bind(('127.0.0.1', attempt_port))
+            test_sock.close()
+            port = attempt_port
+            break
+        except OSError:
+            continue
+    url = f'http://127.0.0.1:{port}'
+    print(f'  [*] Starting server on {url}')
+    handler = make_handler()
+    server = HTTPServer(('127.0.0.1', port), handler)
+    # Open browser via ctypes after a short delay
+    def delayed_open():
+        time.sleep(0.4)
+        print(f'  [*] Opening browser via ctypes ({bridge.platform_name()})...')
+        if bridge.open_browser(url):
+            print(f'  [*] Browser launched successfully')
+        else:
+            print(f'  [!] Could not auto-open browser. Visit: {url}')
+    threading.Thread(target=delayed_open, daemon=True).start()
+    print(f'  [*] Serving... Press Ctrl+C to stop.\n')
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print('\n  [*] Shutting down gracefully...')
+        server.shutdown()
+
+
+# -- Auto-launch when executed ---------------------------------
+serve_pdf()
